@@ -36,19 +36,76 @@ This repository contains hands-on labs and scripts focusing on network-level off
 ```text
 RedTeam-Phase1-Labs/
 ├── 01-Basic-Red-Team-Concepts/
+
 ├── 02-Lab-Environment/
+install linux
+on vm
+configured nat environment into it
+
 ├── 03-OSI-Model/
+
+Lets start 
+🔁 OSI Model vs TCP/IP Stack: Combined Cheat Sheet
+OSI Layer	TCP/IP Layer	Key Functions	Examples / Protocols
+7. Application	Application	User interface, protocols for network services	HTTP, HTTPS, FTP, DNS, SSH, Telnet
+6. Presentation	(Merged into App)	Data encoding, encryption, compression	SSL/TLS, Base64, ASCII, JPEG, MPEG
+5. Session	(Merged into App)	Session management, authentication, API calls	NetBIOS, RPC, SOCKS, Session Tokens
+4. Transport	Transport	Reliable or unreliable transport, flow control	TCP, UDP, TLS, Port numbers
+3. Network	Internet	Logical addressing, routing, packet forwarding	IP, ICMP, ARP, OSPF, BGP
+2. Data Link	Network Access	MAC addressing, frame transmission, error detection	Ethernet, Wi-Fi (802.11), PPP, VLANs
+1. Physical	(Part of Net Access)	Hardware transmission of raw bits	Cables, Hubs, Radio waves, NICs
+________________________________________
+💡 How to Use This as a Red Teamer
+•	Layers 7–5 (Application Focus): Web hacking, phishing, API abuse.
+•	Layer 4 (Transport): Port scanning, firewall evasion, session hijacking.
+•	Layer 3 (Network): IP spoofing, ICMP tunnels, VPNs.
+•	Layer 2 (Data Link): MITM attacks, MAC spoofing, ARP poisoning.
+•	Layer 1 (Physical): Physical intrusions, rogue devices, USB drops.
+
 ├── 04-TCP-UDP-Scan/
+tcp and udp scan
+![image](https://github.com/user-attachments/assets/5f914756-3a06-4304-80ec-59c1a5113c12)
+
+🖥️ Lab Setup:
+•	Client IP: 192.168.229.128
+•	Server IP: 34.223.124.45
+•	Wireshark Filter Used: tcp.flags.syn==1 || tcp.flags.ack==1
+•	Target Port: 80 (HTTP)
+•	Tool Used: Wireshark (Running on Kali VM)
+________________________________________
+📸 Screenshot:  
+________________________________________
+📦 Packet Analysis Table:
+Step	Packet No.	Source IP	Destination IP	Flags	Description
+1️⃣	3	192.168.229.128	34.223.124.45	SYN	Client initiates connection
+2️⃣	10	34.223.124.45	192.168.229.128	SYN, ACK	Server acknowledges and responds
+3️⃣	11	192.168.229.128	34.223.124.45	ACK	Client finalizes connection setup
+________________________________________
+📋 Detailed Packet Info:
+Packet 1 (SYN):
+•	Src Port: 45450 → Dst Port: 80
+•	Flags: SYN
+•	Seq: 0
+•	Win Size: 64240
+Packet 2 (SYN-ACK):
+•	Src Port: 80 → Dst Port: 45450
+•	Flags: SYN, ACK
+•	Seq: 0
+•	Ack: 1
+•	Win Size: 64240
+Packet 3 (ACK):
+•	Src Port: 45450 → Dst Port: 80
+•	Flags: ACK
+•	Seq: 1
+•	Ack: 1
+•	Win Size: 64240
+
+
 ├── 05-DHCP-IP-Assignment/
+
 ├── 06-DNS-Resolution-Spoofing/
+
 ├── 07-Nmap-Scan-with-GUI/
-├── 08-Evasion-Techniques/
-├── 09-Wireshark-Scan-Analysis/
-└── README.md
-
-how to run this automatically
-🧪 How to Run Nmap Scan Script
-
 
 python3 -m venv ~/nmap-env
 source ~/nmap-env/bin/activate
@@ -98,6 +155,7 @@ with open(report_file, 'w') as report:
 
 print(f"[+] Report saved to: {report_file}")
 
+├── 08-Evasion-Techniques/
 
 
 FULL UPDATED SCRIPT IN WHICH YOU WE CAN BYPASS THE FIREWALL USING CHRIMTIS FORMAT 
@@ -246,7 +304,6 @@ def main(stdscr):
             host_discovery(stdscr, ip)
 
 curses.wrapper(main)
-________________________________________
 🧪 How to Run
 1.	Save as nmap_menu_ui.py
 2.	Install Python Nmap if needed:
@@ -259,6 +316,10 @@ CopyEdit
 python3 nmap_menu_ui.py
 
 ✅ DNS Lookup Lab (from VM → Linux Host or Internet)
+________________________________________
+
+├── 09-Wireshark-Scan-Analysis/
+
 🌐 DNS (Domain Name System)
 Definition:
 DNS translates domain names (like google.com) into IP addresses (like 142.250.64.110) so computers can communicate.
@@ -334,43 +395,12 @@ Run with elevated permissions:
 bash
 CopyEdit
 sudo python3 dns_dhcp_gui.py
+└── README.md
+
+________________________________________
 
 
-tcp and udp scan
-![image](https://github.com/user-attachments/assets/5f914756-3a06-4304-80ec-59c1a5113c12)
 
-🖥️ Lab Setup:
-•	Client IP: 192.168.229.128
-•	Server IP: 34.223.124.45
-•	Wireshark Filter Used: tcp.flags.syn==1 || tcp.flags.ack==1
-•	Target Port: 80 (HTTP)
-•	Tool Used: Wireshark (Running on Kali VM)
-________________________________________
-📸 Screenshot:  
-________________________________________
-📦 Packet Analysis Table:
-Step	Packet No.	Source IP	Destination IP	Flags	Description
-1️⃣	3	192.168.229.128	34.223.124.45	SYN	Client initiates connection
-2️⃣	10	34.223.124.45	192.168.229.128	SYN, ACK	Server acknowledges and responds
-3️⃣	11	192.168.229.128	34.223.124.45	ACK	Client finalizes connection setup
-________________________________________
-📋 Detailed Packet Info:
-Packet 1 (SYN):
-•	Src Port: 45450 → Dst Port: 80
-•	Flags: SYN
-•	Seq: 0
-•	Win Size: 64240
-Packet 2 (SYN-ACK):
-•	Src Port: 80 → Dst Port: 45450
-•	Flags: SYN, ACK
-•	Seq: 0
-•	Ack: 1
-•	Win Size: 64240
-Packet 3 (ACK):
-•	Src Port: 45450 → Dst Port: 80
-•	Flags: ACK
-•	Seq: 1
-•	Ack: 1
-•	Win Size: 64240
+
 
 
